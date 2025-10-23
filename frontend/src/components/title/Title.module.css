@@ -1,0 +1,11 @@
+.title {
+  padding-top: clamp(0.5rem, 1.5vw, 2rem);
+}
+
+.dark {
+  color: #000;
+}
+
+.light {
+  color: #e5dddd;
+}
