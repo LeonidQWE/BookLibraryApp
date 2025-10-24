@@ -1,0 +1,23 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.fieldLabel {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: rgb(128, 119, 119);
+}
+
+.fieldInput {
+  padding: 1rem 0.8rem;
+  border-radius: 0.5rem;
+  border: none;
+  outline: 2px solid rgb(165, 156, 156);
+  font-size: 1.6rem;
+  width: 100%;
+  color: rgb(53, 53, 105);
+  font-weight: 500;
+}
