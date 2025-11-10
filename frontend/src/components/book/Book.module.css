@@ -1,0 +1,15 @@
+.book {
+  padding: 1rem;
+  background-color: #9ba5d9;
+  border-radius: 1rem;
+}
+
+.content {
+  display: flex;
+  gap: 1rem;
+  font-size: 2rem;
+}
+
+.author{
+  font-weight: 700;
+}
