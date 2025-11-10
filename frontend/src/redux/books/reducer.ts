@@ -14,6 +14,8 @@ export const booksReducer = (
         return [...state, action.payload as BookType];
       }
       return state;
+    case BOOK_ACTION_TYPES.DELETE_BOOK:
+      return state.filter(book => book.id !== action.payload);
     default:
       return state;
   }
