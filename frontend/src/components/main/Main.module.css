@@ -1,0 +1,9 @@
+.content {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.description {
+  flex: 1 1 auto;
+}
