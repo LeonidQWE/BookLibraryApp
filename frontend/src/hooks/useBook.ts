@@ -1,20 +1,31 @@
 import { useState } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { addBook } from 'redux/books/actionCreators';
+import { BookType } from 'types';
 
 export const useBook = () => {
-  const [book, setBook] = useState({ author: '', title: '' });
+  const dispatch = useAppDispatch();
+  const [book, setBook] = useState<BookType>({ id: '', author: '', title: '' });
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(book);
-    setBook({ author: '', title: '' });
+
+    if (book.author && book.title) {
+      const newBook = {
+        ...book,
+        id: crypto.randomUUID(),
+      };
+
+      dispatch(addBook(newBook));
+    }
+
+    setBook({ id: '', author: '', title: '' });
   };
 
   const changeField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setBook({ ...book, [id]: value });
   };
-
-  
 
   return { book, addNewBook, changeField };
 };
