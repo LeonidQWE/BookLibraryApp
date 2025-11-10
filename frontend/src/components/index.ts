@@ -5,3 +5,5 @@ export { CommonField } from './commonField/CommonField';
 export { Button } from './button/Button';
 export { BookForm } from './bookForm/BookForm';
 export { Main } from './main/Main';
+export { Book } from './book/Book';
+export { BookList } from './bookList/BookList';
