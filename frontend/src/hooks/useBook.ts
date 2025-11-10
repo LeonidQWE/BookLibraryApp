@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useAppDispatch } from 'redux/hooks';
-import { addBook } from 'redux/books/actionCreators';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { addBook, deleteBook } from 'redux/books/actionCreators';
 import { BookType } from 'types';
 
 export const useBook = () => {
   const dispatch = useAppDispatch();
   const [book, setBook] = useState<BookType>({ id: '', author: '', title: '' });
+  const books = useAppSelector(state => state.books);
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -27,5 +28,9 @@ export const useBook = () => {
     setBook({ ...book, [id]: value });
   };
 
-  return { book, addNewBook, changeField };
+  const removeBook = (id: string) => {
+    dispatch(deleteBook(id));
+  };
+
+  return { books, book, addNewBook, changeField, removeBook };
 };
