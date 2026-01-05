@@ -1,13 +1,22 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { addBook, deleteBook } from 'redux/books/actionCreators';
+import {
+  addBook,
+  deleteBook,
+  toggleFavorite,
+} from 'redux/books/actionCreators';
 import { getNewBook } from 'utils/getNewBook';
 import { BookType } from 'types';
 import booksData from 'data/books.json';
 
 export const useBook = () => {
   const dispatch = useAppDispatch();
-  const [book, setBook] = useState<BookType>({ id: '', author: '', title: '' });
+  const [book, setBook] = useState<BookType>({
+    id: '',
+    author: '',
+    title: '',
+    isFavorite: false,
+  });
   const books = useAppSelector(state => state.books);
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
@@ -19,7 +28,7 @@ export const useBook = () => {
       dispatch(addBook(newBook));
     }
 
-    setBook({ id: '', author: '', title: '' });
+    setBook({ id: '', author: '', title: '', isFavorite: false });
   };
 
   const addRandomBook = () => {
@@ -37,5 +46,17 @@ export const useBook = () => {
     dispatch(deleteBook(id));
   };
 
-  return { books, book, addNewBook, changeField, removeBook, addRandomBook };
+  const handleToggleFavorite = (id: string) => {
+    dispatch(toggleFavorite(id));
+  };
+
+  return {
+    books,
+    book,
+    addNewBook,
+    changeField,
+    removeBook,
+    addRandomBook,
+    handleToggleFavorite,
+  };
 };

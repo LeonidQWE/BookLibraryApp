@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import s from './Button.module.css';
 
 export type ButtonVariant = 'primary' | 'secondary';
@@ -5,7 +6,7 @@ export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
-  btnText?: string;
+  btnText?: ReactNode;
   variant?: ButtonVariant;
   onClick?: () => void;
   type?: ButtonType;

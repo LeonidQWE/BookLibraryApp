@@ -17,3 +17,8 @@
 .author{
   font-weight: 700;
 }
+
+.controls {
+  display: flex;
+  gap: 0.8rem;
+}

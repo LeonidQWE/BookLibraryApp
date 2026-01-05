@@ -10,3 +10,8 @@ export const deleteBook = (id: string) => ({
   type: BOOK_ACTION_TYPES.DELETE_BOOK,
   payload: id,
 });
+
+export const toggleFavorite = (id: string) => ({
+  type: BOOK_ACTION_TYPES.TOGGLE_FAVORITE,
+  payload: id,
+});

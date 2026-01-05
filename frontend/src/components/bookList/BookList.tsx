@@ -3,7 +3,7 @@ import { Book } from 'components';
 import s from './BookList.module.css';
 
 export const BookList = () => {
-  const { books, removeBook } = useBook();
+  const { books } = useBook();
 
   return (
     <div className={s.bookList}>
@@ -12,12 +12,7 @@ export const BookList = () => {
         <p className={s.empty}>Book list is empty</p>
       : <>
           {books.map((book, index) => (
-            <Book
-              key={book.id}
-              number={++index}
-              book={book}
-              deleteBook={removeBook}
-            />
+            <Book key={book.id} number={++index} book={book} />
           ))}
         </>
       }

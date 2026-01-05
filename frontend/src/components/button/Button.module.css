@@ -1,4 +1,6 @@
 .button {
+  display: flex;
+  align-items: center;
   border-radius: 0.5rem;
   font-size: 1.6rem;
   font-weight: 500;
