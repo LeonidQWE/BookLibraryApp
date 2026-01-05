@@ -7,14 +7,20 @@ export const BookList = () => {
 
   return (
     <div className={s.bookList}>
-      {books.map((book, index) => (
-        <Book
-          key={book.id}
-          number={++index}
-          book={book}
-          deleteBook={removeBook}
-        />
-      ))}
+      <p className={s.title}>All books</p>
+      {books.length <= 0 ?
+        <p className={s.empty}>Book list is empty</p>
+      : <>
+          {books.map((book, index) => (
+            <Book
+              key={book.id}
+              number={++index}
+              book={book}
+              deleteBook={removeBook}
+            />
+          ))}
+        </>
+      }
     </div>
   );
 };
