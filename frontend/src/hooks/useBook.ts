@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { addBook, deleteBook } from 'redux/books/actionCreators';
+import { getNewBook } from 'utils/getNewBook';
 import { BookType } from 'types';
+import booksData from 'data/books.json';
 
 export const useBook = () => {
   const dispatch = useAppDispatch();
@@ -12,15 +14,18 @@ export const useBook = () => {
     e.preventDefault();
 
     if (book.author && book.title) {
-      const newBook = {
-        ...book,
-        id: crypto.randomUUID(),
-      };
+      const newBook = getNewBook(book);
 
       dispatch(addBook(newBook));
     }
 
     setBook({ id: '', author: '', title: '' });
+  };
+
+  const addRandomBook = () => {
+    const randomBook = booksData[Math.floor(Math.random() * booksData.length)];
+    const newBook = getNewBook(randomBook);
+    dispatch(addBook(newBook));
   };
 
   const changeField = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,5 +37,5 @@ export const useBook = () => {
     dispatch(deleteBook(id));
   };
 
-  return { books, book, addNewBook, changeField, removeBook };
+  return { books, book, addNewBook, changeField, removeBook, addRandomBook };
 };

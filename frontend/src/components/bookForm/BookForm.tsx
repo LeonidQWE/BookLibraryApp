@@ -4,9 +4,7 @@ import { Button, CommonField, Title } from 'components';
 import s from './BookForm.module.css';
 
 export const BookForm = () => {
-  const { book, addNewBook, changeField } = useBook();
-
-  
+  const { book, addNewBook, changeField, addRandomBook } = useBook();
 
   return (
     <form className={s.form} onSubmit={addNewBook}>
@@ -26,6 +24,7 @@ export const BookForm = () => {
         setValue={changeField}
       />
       <Button btnText="Add new book" type="submit" />
+      <Button btnText="Add random book" type="button" onClick={addRandomBook} />
     </form>
   );
 };
