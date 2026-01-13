@@ -5,6 +5,11 @@ export const changeFilterTitle = (title: string) => ({
   payload: title,
 });
 
+export const changeFilterAuthor = (author: string) => ({
+  type: FILTER_ACTION_TYPES.CHANGE_FILTER_AUTHOR,
+  payload: author,
+});
+
 export const resetFilters = () => ({
   type: FILTER_ACTION_TYPES.RESET_FILTERS,
 });

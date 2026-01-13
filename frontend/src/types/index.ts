@@ -5,4 +5,4 @@ export type BookType = {
   isFavorite: boolean;
 };
 
-export type FiltersTypes = { filteredTitle: string };
+export type FiltersTypes = { filteredTitle: string; filteredAuthor: string };

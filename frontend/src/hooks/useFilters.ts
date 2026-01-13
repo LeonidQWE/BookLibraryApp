@@ -1,17 +1,32 @@
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { changeFilterTitle, resetFilters } from 'redux/filters/actionCreators';
+import {
+  changeFilterTitle,
+  changeFilterAuthor,
+  resetFilters,
+} from 'redux/filters/actionCreators';
 
 export const useFilters = () => {
   const filteredTitle = useAppSelector(state => state.filters.filteredTitle);
+  const filteredAuthor = useAppSelector(state => state.filters.filteredAuthor);
   const dispatch = useAppDispatch();
 
-  const changeFilterField = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeFilteredTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(changeFilterTitle(e.target.value));
+  };
+
+  const changeFilteredAuthor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(changeFilterAuthor(e.target.value));
   };
 
   const deleteFilters = () => {
     dispatch(resetFilters());
   };
 
-  return { filteredTitle, changeFilterField, deleteFilters };
+  return {
+    filteredTitle,
+    filteredAuthor,
+    changeFilteredTitle,
+    changeFilteredAuthor,
+    deleteFilters,
+  };
 };

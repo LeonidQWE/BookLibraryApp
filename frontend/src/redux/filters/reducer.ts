@@ -2,8 +2,9 @@ import { UnknownAction } from '@reduxjs/toolkit';
 import { FILTER_ACTION_TYPES } from './actionTypes';
 import { FiltersTypes } from 'types';
 
-const initialState = {
+const initialState: FiltersTypes = {
   filteredTitle: '',
+  filteredAuthor: '',
 };
 
 export const filtersReducer = (
@@ -12,7 +13,9 @@ export const filtersReducer = (
 ): FiltersTypes => {
   switch (action.type) {
     case FILTER_ACTION_TYPES.CHANGE_FILTER_TITLE:
-      return { filteredTitle: action.payload } as FiltersTypes;
+      return { ...state, filteredTitle: action.payload } as FiltersTypes;
+    case FILTER_ACTION_TYPES.CHANGE_FILTER_AUTHOR:
+      return { ...state, filteredAuthor: action.payload } as FiltersTypes;
     case FILTER_ACTION_TYPES.RESET_FILTERS:
       return initialState;
     default:

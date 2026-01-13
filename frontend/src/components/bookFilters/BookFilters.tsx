@@ -3,7 +3,13 @@ import { Button, CommonField } from 'components';
 import s from './BookFilters.module.css';
 
 export const BookFilters = () => {
-  const { filteredTitle, changeFilterField, deleteFilters } = useFilters();
+  const {
+    filteredTitle,
+    filteredAuthor,
+    changeFilteredTitle,
+    changeFilteredAuthor,
+    deleteFilters,
+  } = useFilters();
 
   return (
     <div className={s.container}>
@@ -11,7 +17,14 @@ export const BookFilters = () => {
         placeholder="Enter book title"
         type="text"
         value={filteredTitle}
-        setValue={changeFilterField}
+        setValue={changeFilteredTitle}
+      />
+
+      <CommonField
+        placeholder="Enter author name"
+        type="text"
+        value={filteredAuthor}
+        setValue={changeFilteredAuthor}
       />
 
       <Button
