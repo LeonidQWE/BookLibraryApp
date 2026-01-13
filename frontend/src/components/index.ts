@@ -7,3 +7,4 @@ export { BookForm } from './bookForm/BookForm';
 export { Main } from './main/Main';
 export { Book } from './book/Book';
 export { BookList } from './bookList/BookList';
+export { BookFilters } from './bookFilters/BookFilters';

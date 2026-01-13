@@ -18,6 +18,11 @@ export const useBook = () => {
     isFavorite: false,
   });
   const books = useAppSelector(state => state.books);
+  const { filteredTitle } = useAppSelector(state => state.filters);
+
+  const filteredBooks = books.filter(book =>
+    book.title.toLocaleLowerCase().includes(filteredTitle.toLocaleLowerCase())
+  );
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,7 +56,7 @@ export const useBook = () => {
   };
 
   return {
-    books,
+    filteredBooks,
     book,
     addNewBook,
     changeField,

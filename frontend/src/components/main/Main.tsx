@@ -1,4 +1,4 @@
-import { BookForm, BookList, Container } from 'components';
+import { BookFilters, BookForm, BookList, Container } from 'components';
 import s from './Main.module.css';
 
 export const Main = () => {
@@ -9,7 +9,7 @@ export const Main = () => {
           <BookForm />
 
           <div className={s.description}>
-            {/* BookFilter */}
+            <BookFilters />
             <BookList />
           </div>
         </div>
