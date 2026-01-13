@@ -1,9 +1,9 @@
 import { useFilters } from 'hooks/useFilters';
-import { CommonField } from 'components';
+import { Button, CommonField } from 'components';
 import s from './BookFilters.module.css';
 
 export const BookFilters = () => {
-  const { filteredTitle, changeFilterField } = useFilters();
+  const { filteredTitle, changeFilterField, deleteFilters } = useFilters();
 
   return (
     <div className={s.container}>
@@ -12,6 +12,12 @@ export const BookFilters = () => {
         type="text"
         value={filteredTitle}
         setValue={changeFilterField}
+      />
+
+      <Button
+        btnText="Reset Filters"
+        variant="primary"
+        onClick={deleteFilters}
       />
     </div>
   );

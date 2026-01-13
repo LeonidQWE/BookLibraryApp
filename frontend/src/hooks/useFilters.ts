@@ -1,9 +1,7 @@
-// import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { changeFilterTitle } from 'redux/filters/actionCreators';
+import { changeFilterTitle, resetFilters } from 'redux/filters/actionCreators';
 
 export const useFilters = () => {
-  // const [filterTitle, setFilterTitle] = useState('');
   const filteredTitle = useAppSelector(state => state.filters.filteredTitle);
   const dispatch = useAppDispatch();
 
@@ -11,5 +9,9 @@ export const useFilters = () => {
     dispatch(changeFilterTitle(e.target.value));
   };
 
-  return { filteredTitle, changeFilterField };
+  const deleteFilters = () => {
+    dispatch(resetFilters());
+  };
+
+  return { filteredTitle, changeFilterField, deleteFilters };
 };
