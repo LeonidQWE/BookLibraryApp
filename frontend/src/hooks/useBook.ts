@@ -18,18 +18,22 @@ export const useBook = () => {
     isFavorite: false,
   });
   const books = useAppSelector(state => state.books);
-  const { filteredTitle, filteredAuthor } = useAppSelector(
+  const { filteredTitle, filteredAuthor, showOnlyFavorites } = useAppSelector(
     state => state.filters
   );
 
-  const filteredBooks = books.filter(
-    book =>
+  const filteredBooks = books.filter(book =>
+    (
       book.title
         .toLocaleLowerCase()
         .includes(filteredTitle.toLocaleLowerCase()) &&
       book.author
         .toLocaleLowerCase()
-        .includes(filteredAuthor.toLocaleLowerCase())
+        .includes(filteredAuthor.toLocaleLowerCase()) &&
+      showOnlyFavorites
+    ) ?
+      book.isFavorite
+    : true
   );
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
