@@ -2,12 +2,14 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import {
   changeFilterTitle,
   changeFilterAuthor,
+  toggleShowOnlyFavorites,
   resetFilters,
 } from 'redux/filters/actionCreators';
 
 export const useFilters = () => {
-  const filteredTitle = useAppSelector(state => state.filters.filteredTitle);
-  const filteredAuthor = useAppSelector(state => state.filters.filteredAuthor);
+  const { filteredTitle, filteredAuthor, showOnlyFavorites } = useAppSelector(
+    state => state.filters
+  );
   const dispatch = useAppDispatch();
 
   const changeFilteredTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,6 +20,12 @@ export const useFilters = () => {
     dispatch(changeFilterAuthor(e.target.value));
   };
 
+  const handleToggleShowOnlyFavorites = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    dispatch(toggleShowOnlyFavorites(e.target.checked));
+  };
+
   const deleteFilters = () => {
     dispatch(resetFilters());
   };
@@ -25,8 +33,10 @@ export const useFilters = () => {
   return {
     filteredTitle,
     filteredAuthor,
+    showOnlyFavorites,
     changeFilteredTitle,
     changeFilteredAuthor,
+    handleToggleShowOnlyFavorites,
     deleteFilters,
   };
 };

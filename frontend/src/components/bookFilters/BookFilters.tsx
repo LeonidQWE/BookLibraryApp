@@ -1,13 +1,15 @@
 import { useFilters } from 'hooks/useFilters';
-import { Button, CommonField } from 'components';
+import { Button, Checkbox, CommonField } from 'components';
 import s from './BookFilters.module.css';
 
 export const BookFilters = () => {
   const {
     filteredTitle,
     filteredAuthor,
+    showOnlyFavorites,
     changeFilteredTitle,
     changeFilteredAuthor,
+    handleToggleShowOnlyFavorites,
     deleteFilters,
   } = useFilters();
 
@@ -27,11 +29,19 @@ export const BookFilters = () => {
         setValue={changeFilteredAuthor}
       />
 
-      <Button
-        btnText="Reset Filters"
-        variant="primary"
-        onClick={deleteFilters}
-      />
+      <div className={s.controls}>
+        <Checkbox
+          labelText="Only Favorites"
+          value={showOnlyFavorites}
+          onChange={handleToggleShowOnlyFavorites}
+        />
+
+        <Button
+          btnText="Reset Filters"
+          variant="primary"
+          onClick={deleteFilters}
+        />
+      </div>
     </div>
   );
 };
