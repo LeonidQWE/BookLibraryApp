@@ -1,9 +1,11 @@
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsBookmarkStarFill } from 'react-icons/bs';
 import { Button } from 'components/button/Button';
+import { useBook } from 'hooks/useBook';
+import { useFilters } from 'hooks/useFilters';
+import { highlightMatch } from 'utils/highlightMatch';
 import { BookType } from 'types';
 import s from './Book.module.css';
-import { useBook } from 'hooks/useBook';
 
 type BookProps = {
   number: number;
@@ -12,13 +14,14 @@ type BookProps = {
 
 export const Book = ({ number, book }: BookProps) => {
   const { removeBook, handleToggleFavorite } = useBook();
+  const { filteredTitle, filteredAuthor } = useFilters();
 
   return (
     <div className={s.book}>
       <div className={s.content}>
         <span>{number}.</span>
-        <p>{book.title}</p>
-        <p className={s.author}>{book.author}</p>
+        <p>{highlightMatch(book.title, filteredTitle)}</p>
+        <strong>{highlightMatch(book.author, filteredAuthor)}</strong>
       </div>
 
       <div className={s.controls}>

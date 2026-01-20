@@ -22,18 +22,15 @@ export const useBook = () => {
     state => state.filters
   );
 
-  const filteredBooks = books.filter(book =>
-    (
+  const filteredBooks = books.filter(
+    book =>
       book.title
         .toLocaleLowerCase()
         .includes(filteredTitle.toLocaleLowerCase()) &&
       book.author
         .toLocaleLowerCase()
         .includes(filteredAuthor.toLocaleLowerCase()) &&
-      showOnlyFavorites
-    ) ?
-      book.isFavorite
-    : true
+      (showOnlyFavorites ? book.isFavorite : true)
   );
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
