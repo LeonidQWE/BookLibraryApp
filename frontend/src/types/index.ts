@@ -5,4 +5,8 @@ export type BookType = {
   isFavorite: boolean;
 };
 
-export type FiltersTypes = { filteredTitle: string; filteredAuthor: string };
+export type FiltersTypes = {
+  filteredTitle: string;
+  filteredAuthor: string;
+  showOnlyFavorites: boolean;
+};

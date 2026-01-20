@@ -10,6 +10,11 @@ export const changeFilterAuthor = (author: string) => ({
   payload: author,
 });
 
+export const toggleShowOnlyFavorites = (checked: boolean) => ({
+  type: FILTER_ACTION_TYPES.SHOW_ONLY_FAVORITES,
+  payload: checked,
+});
+
 export const resetFilters = () => ({
   type: FILTER_ACTION_TYPES.RESET_FILTERS,
 });
