@@ -4,7 +4,7 @@ import {
   changeFilterAuthor,
   toggleShowOnlyFavorites,
   resetFilters,
-} from 'redux/filters/actionCreators';
+} from 'redux/filters/filtersSlice';
 
 export const useFilters = () => {
   const { filteredTitle, filteredAuthor, showOnlyFavorites } = useAppSelector(
