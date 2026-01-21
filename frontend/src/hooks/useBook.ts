@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import {
-  addBook,
-  deleteBook,
-  toggleFavorite,
-} from 'redux/books/actionCreators';
+import { addBook, deleteBook, toggleFavorite } from 'redux/books/bookSlice';
 import { getNewBook } from 'utils/getNewBook';
 import { BookType } from 'types';
 import booksData from 'data/books.json';
