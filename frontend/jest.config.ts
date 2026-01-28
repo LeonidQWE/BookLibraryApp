@@ -22,6 +22,10 @@ const config: Config = {
     '^.+\\.(css|less|sass|scss)$': 'identity-obj-proxy',
     '^components/(.*)$': '<rootDir>/src/components/$1',
     '^components$': '<rootDir>/src/components/index.ts',
+    '^hooks/(.*)$': '<rootDir>/src/hooks/$1',
+    '^redux/(.*)$': '<rootDir>/src/redux/$1',
+    '^utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^data/(.*)$': '<rootDir>/src/data/$1',
     '^tests/(.*)$': '<rootDir>/src/tests/$1',
   },
 };
