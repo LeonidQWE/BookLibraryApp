@@ -4,7 +4,7 @@ import { BookType } from 'types';
 const initialState: BookType[] = [];
 
 const bookSlice = createSlice({
-  name: '@@book',
+  name: 'books',
   initialState,
   reducers: {
     addBook: (state, action: PayloadAction<BookType>) => {
@@ -21,7 +21,11 @@ const bookSlice = createSlice({
       );
     },
   },
+  selectors: {
+    selectBooks: sliceState => sliceState,
+  },
 });
 
 export const { addBook, deleteBook, toggleFavorite } = bookSlice.actions;
+export const { selectBooks } = bookSlice.selectors;
 export const booksReducer = bookSlice.reducer;

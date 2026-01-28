@@ -8,7 +8,7 @@ const initialState: FiltersTypes = {
 };
 
 const filtersSlice = createSlice({
-  name: '@@filters',
+  name: 'filters',
   initialState,
   reducers: {
     changeFilterTitle: (state, action: PayloadAction<string>) => {
@@ -24,6 +24,11 @@ const filtersSlice = createSlice({
       return initialState;
     },
   },
+  selectors: {
+    selectFilteredTitle: sliceState => sliceState.filteredTitle,
+    selectFilteredAuthor: sliceState => sliceState.filteredAuthor,
+    selectShowOnlyFavorites: sliceState => sliceState.showOnlyFavorites,
+  },
 });
 
 export const {
@@ -32,4 +37,9 @@ export const {
   toggleShowOnlyFavorites,
   resetFilters,
 } = filtersSlice.actions;
+export const {
+  selectFilteredTitle,
+  selectFilteredAuthor,
+  selectShowOnlyFavorites,
+} = filtersSlice.selectors;
 export const filtersReducer = filtersSlice.reducer;
