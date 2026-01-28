@@ -4,27 +4,26 @@ import {
   changeFilterAuthor,
   toggleShowOnlyFavorites,
   resetFilters,
+  selectFilteredTitle,
+  selectFilteredAuthor,
+  selectShowOnlyFavorites,
 } from 'redux/filters/filtersSlice';
 
 export const useFilters = () => {
-  const { filteredTitle, filteredAuthor, showOnlyFavorites } = useAppSelector(
-    state => state.filters
-  );
+  const filteredTitle = useAppSelector(selectFilteredTitle);
+  const filteredAuthor = useAppSelector(selectFilteredAuthor);
+  const showOnlyFavorites = useAppSelector(selectShowOnlyFavorites);
+
   const dispatch = useAppDispatch();
 
-  const changeFilteredTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeFilterTitle(e.target.value));
-  };
+  const setFilteredTitle = (value: string) =>
+    dispatch(changeFilterTitle(value));
 
-  const changeFilteredAuthor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(changeFilterAuthor(e.target.value));
-  };
+  const setFiltereAuthor = (value: string) =>
+    dispatch(changeFilterAuthor(value));
 
-  const handleToggleShowOnlyFavorites = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    dispatch(toggleShowOnlyFavorites(e.target.checked));
-  };
+  const setShowOnlyFavorites = (value: boolean) =>
+    dispatch(toggleShowOnlyFavorites(value));
 
   const deleteFilters = () => {
     dispatch(resetFilters());
@@ -34,9 +33,9 @@ export const useFilters = () => {
     filteredTitle,
     filteredAuthor,
     showOnlyFavorites,
-    changeFilteredTitle,
-    changeFilteredAuthor,
-    handleToggleShowOnlyFavorites,
+    setFilteredTitle,
+    setFiltereAuthor,
+    setShowOnlyFavorites,
     deleteFilters,
   };
 };

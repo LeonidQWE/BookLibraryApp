@@ -1,6 +1,16 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { addBook, deleteBook, toggleFavorite } from 'redux/books/bookSlice';
+import {
+  addBook,
+  deleteBook,
+  toggleFavorite,
+  selectBooks,
+} from 'redux/books/bookSlice';
+import {
+  selectFilteredAuthor,
+  selectFilteredTitle,
+  selectShowOnlyFavorites,
+} from 'redux/filters/filtersSlice';
 import { getNewBook } from 'utils/getNewBook';
 import { BookType } from 'types';
 import booksData from 'data/books.json';
@@ -13,10 +23,10 @@ export const useBook = () => {
     title: '',
     isFavorite: false,
   });
-  const books = useAppSelector(state => state.books);
-  const { filteredTitle, filteredAuthor, showOnlyFavorites } = useAppSelector(
-    state => state.filters
-  );
+  const books = useAppSelector(selectBooks);
+  const filteredTitle = useAppSelector(selectFilteredTitle);
+  const filteredAuthor = useAppSelector(selectFilteredAuthor);
+  const showOnlyFavorites = useAppSelector(selectShowOnlyFavorites);
 
   const filteredBooks = books.filter(
     book =>

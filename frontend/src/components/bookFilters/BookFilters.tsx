@@ -7,9 +7,9 @@ export const BookFilters = () => {
     filteredTitle,
     filteredAuthor,
     showOnlyFavorites,
-    changeFilteredTitle,
-    changeFilteredAuthor,
-    handleToggleShowOnlyFavorites,
+    setFilteredTitle,
+    setFiltereAuthor,
+    setShowOnlyFavorites,
     deleteFilters,
   } = useFilters();
 
@@ -19,21 +19,21 @@ export const BookFilters = () => {
         placeholder="Enter book title"
         type="text"
         value={filteredTitle}
-        setValue={changeFilteredTitle}
+        setValue={e => setFilteredTitle(e.target.value)}
       />
 
       <CommonField
         placeholder="Enter author name"
         type="text"
         value={filteredAuthor}
-        setValue={changeFilteredAuthor}
+        setValue={e => setFiltereAuthor(e.target.value)}
       />
 
       <div className={s.controls}>
         <Checkbox
           labelText="Only Favorites"
           value={showOnlyFavorites}
-          onChange={handleToggleShowOnlyFavorites}
+          onChange={e => setShowOnlyFavorites(e.target.checked)}
         />
 
         <Button
