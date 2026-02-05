@@ -9,6 +9,7 @@ const config: Config = {
     '!src/main.tsx',
     '!src/vite-env.d.ts',
     '!src/App.tsx',
+    '!src/redux/store.ts',
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'jsdom',
