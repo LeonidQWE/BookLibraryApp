@@ -59,7 +59,7 @@ export const useBook = () => {
 
   const changeField = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setBook({ ...book, [id]: value });
+    setBook(prev => ({ ...prev, [id]: value }));
   };
 
   const removeBook = (id: string) => {
