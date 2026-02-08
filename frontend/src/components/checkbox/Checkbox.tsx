@@ -8,7 +8,7 @@ type CheckboxProps = {
 
 export const Checkbox = ({ labelText, value, onChange }: CheckboxProps) => {
   return (
-    <label className={s.checkbox}>
+    <label className={s.checkbox} data-testid="checkbox">
       <input
         className={s.input}
         type="checkbox"
