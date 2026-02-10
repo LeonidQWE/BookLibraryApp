@@ -1,9 +1,11 @@
 import { useBook } from 'hooks/useBook';
+import { useFilters } from 'hooks/useFilters';
 import { Book } from 'components';
 import s from './BookList.module.css';
 
 export const BookList = () => {
-  const { filteredBooks } = useBook();
+  const { filteredBooks, removeBook, handleToggleFavorite } = useBook();
+  const { filteredTitle, filteredAuthor } = useFilters();
 
   return (
     <div className={s.bookList}>
@@ -12,7 +14,15 @@ export const BookList = () => {
         <p className={s.empty}>Book list is empty</p>
       : <>
           {filteredBooks.map((book, index) => (
-            <Book key={book.id} number={++index} book={book} />
+            <Book
+              key={book.id}
+              number={++index}
+              book={book}
+              deleteBook={removeBook}
+              toggleFavorite={handleToggleFavorite}
+              filteredTitle={filteredTitle}
+              filteredAuthor={filteredAuthor}
+            />
           ))}
         </>
       }
