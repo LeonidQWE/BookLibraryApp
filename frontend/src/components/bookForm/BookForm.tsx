@@ -6,7 +6,7 @@ export const BookForm = () => {
   const { book, addNewBook, changeField, addRandomBook } = useBook();
 
   return (
-    <form className={s.form} onSubmit={addNewBook}>
+    <form data-testid="bookForm" className={s.form} onSubmit={addNewBook}>
       <Title title="Add Book" level={3} />
       <CommonField
         id="author"
