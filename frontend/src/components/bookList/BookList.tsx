@@ -8,8 +8,10 @@ export const BookList = () => {
   const { filteredTitle, filteredAuthor } = useFilters();
 
   return (
-    <div className={s.bookList}>
-      <p className={s.title}>All books</p>
+    <div className={s.bookList} data-testid="list">
+      <p className={s.title} data-testid="listTitle">
+        All books
+      </p>
       {filteredBooks.length <= 0 ?
         <p className={s.empty}>Book list is empty</p>
       : <>
