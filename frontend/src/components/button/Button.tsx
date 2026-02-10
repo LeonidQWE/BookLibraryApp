@@ -11,6 +11,7 @@ type ButtonProps = {
   onClick?: () => void;
   type?: ButtonType;
   size?: ButtonSize;
+  dataTestid?: string;
 };
 
 export const Button = ({
@@ -19,10 +20,11 @@ export const Button = ({
   onClick,
   type = 'button',
   size = 'md',
+  dataTestid = 'button',
 }: ButtonProps) => {
   return (
     <button
-      data-testid="button"
+      data-testid={dataTestid}
       className={`${s.button} ${s[variant]} ${s[size]}`}
       onClick={onClick}
       type={type}>
