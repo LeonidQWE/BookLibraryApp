@@ -14,7 +14,7 @@ export const BookFilters = () => {
   } = useFilters();
 
   return (
-    <div className={s.container}>
+    <div className={s.container} data-testid="filters">
       <CommonField
         placeholder="Enter book title"
         type="text"
@@ -29,7 +29,7 @@ export const BookFilters = () => {
         setValue={e => setFiltereAuthor(e.target.value)}
       />
 
-      <div className={s.controls}>
+      <div className={s.controls} data-testid="controls">
         <Checkbox
           labelText="Only Favorites"
           value={showOnlyFavorites}
@@ -40,6 +40,7 @@ export const BookFilters = () => {
           btnText="Reset Filters"
           variant="primary"
           onClick={deleteFilters}
+          dataTestid="resetFilters"
         />
       </div>
     </div>
