@@ -11,17 +11,15 @@ import {
   selectFilteredTitle,
   selectShowOnlyFavorites,
 } from 'redux/filters/filtersSlice';
+import { fetchBook } from 'redux/books/asyncActions/fetchBook';
 import { getNewBook } from 'utils/getNewBook';
-import { BookType } from 'types';
 import booksData from 'data/books.json';
 
 export const useBook = () => {
   const dispatch = useAppDispatch();
-  const [book, setBook] = useState<BookType>({
-    id: '',
+  const [book, setBook] = useState({
     author: '',
     title: '',
-    isFavorite: false,
   });
   const books = useAppSelector(selectBooks);
   const filteredTitle = useAppSelector(selectFilteredTitle);
@@ -43,17 +41,17 @@ export const useBook = () => {
     e.preventDefault();
 
     if (book.author && book.title) {
-      const newBook = getNewBook(book);
+      const newBook = getNewBook(book, 'New Book');
 
       dispatch(addBook(newBook));
     }
 
-    setBook({ id: '', author: '', title: '', isFavorite: false });
+    setBook({ author: '', title: '' });
   };
 
   const addRandomBook = () => {
     const randomBook = booksData[Math.floor(Math.random() * booksData.length)];
-    const newBook = getNewBook(randomBook);
+    const newBook = getNewBook(randomBook, 'Random Book');
     dispatch(addBook(newBook));
   };
 
@@ -70,6 +68,10 @@ export const useBook = () => {
     dispatch(toggleFavorite(id));
   };
 
+  const addRandomBookByAPI = async () => {
+    dispatch(fetchBook());
+  };
+
   return {
     filteredBooks,
     book,
@@ -78,5 +80,6 @@ export const useBook = () => {
     removeBook,
     addRandomBook,
     handleToggleFavorite,
+    addRandomBookByAPI,
   };
 };
