@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { fetchBook } from './asyncActions/fetchBook';
 import { BookType } from 'types';
+import { getNewBook } from 'utils/getNewBook';
 
 const initialState: BookType[] = [];
 
@@ -23,6 +25,13 @@ const bookSlice = createSlice({
   },
   selectors: {
     selectBooks: sliceState => sliceState,
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchBook.fulfilled, (state, action) => {
+      if (action.payload?.title && action.payload?.author) {
+        state.push(getNewBook(action.payload, 'API'));
+      }
+    });
   },
 });
 
