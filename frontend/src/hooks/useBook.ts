@@ -11,10 +11,10 @@ import {
   selectFilteredTitle,
   selectShowOnlyFavorites,
 } from 'redux/filters/filtersSlice';
+import { setError } from 'redux/error/errorSlice';
 import { fetchBook } from 'redux/books/asyncActions/fetchBook';
 import { getNewBook } from 'utils/getNewBook';
 import booksData from 'data/books.json';
-import { useError } from './useError';
 
 export const useBook = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +26,6 @@ export const useBook = () => {
   const filteredTitle = useAppSelector(selectFilteredTitle);
   const filteredAuthor = useAppSelector(selectFilteredAuthor);
   const showOnlyFavorites = useAppSelector(selectShowOnlyFavorites);
-  const { addError } = useError();
 
   const filteredBooks = books.filter(
     book =>
@@ -43,12 +42,12 @@ export const useBook = () => {
     e.preventDefault();
 
     if (!book.author) {
-      addError('Author field is empty');
+      dispatch(setError('Author field is empty'));
       return;
     }
 
     if (!book.title) {
-      addError('Title field is empty');
+      dispatch(setError('Title field is empty'));
       return;
     }
 

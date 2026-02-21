@@ -1,17 +1,18 @@
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { selectError, setError, cleanError } from 'redux/error/errorSlice';
+import { selectError, cleanError } from 'redux/error/errorSlice';
 
 export const useError = () => {
   const dispatch = useAppDispatch();
   const error = useAppSelector(selectError);
 
-  const addError = (error: string) => {
-    dispatch(setError(error));
-  };
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(cleanError());
+    }
+  }, [error, dispatch]);
 
-  const removeError = () => {
-    dispatch(cleanError());
-  };
-
-  return { error, addError, removeError };
+  return { error };
 };
