@@ -9,3 +9,4 @@ export { Book } from './book/Book';
 export { BookList } from './bookList/BookList';
 export { BookFilters } from './bookFilters/BookFilters';
 export { Checkbox } from './checkbox/Checkbox';
+export { Error } from './error/Error';

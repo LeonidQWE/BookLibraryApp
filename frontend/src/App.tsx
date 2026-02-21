@@ -1,10 +1,11 @@
-import { Header, Main } from 'components';
+import { Error, Header, Main } from 'components';
 
 function App() {
   return (
     <>
       <Header />
       <Main />
+      <Error />
     </>
   );
 }
