@@ -14,6 +14,7 @@ import {
 import { fetchBook } from 'redux/books/asyncActions/fetchBook';
 import { getNewBook } from 'utils/getNewBook';
 import booksData from 'data/books.json';
+import { useError } from './useError';
 
 export const useBook = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ export const useBook = () => {
   const filteredTitle = useAppSelector(selectFilteredTitle);
   const filteredAuthor = useAppSelector(selectFilteredAuthor);
   const showOnlyFavorites = useAppSelector(selectShowOnlyFavorites);
+  const { addError } = useError();
 
   const filteredBooks = books.filter(
     book =>
@@ -39,6 +41,16 @@ export const useBook = () => {
 
   const addNewBook = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!book.author) {
+      addError('Author field is empty');
+      return;
+    }
+
+    if (!book.title) {
+      addError('Title field is empty');
+      return;
+    }
 
     if (book.author && book.title) {
       const newBook = getNewBook(book, 'New Book');
