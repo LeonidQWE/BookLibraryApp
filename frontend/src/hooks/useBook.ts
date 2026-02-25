@@ -5,6 +5,7 @@ import {
   deleteBook,
   toggleFavorite,
   selectBooks,
+  selectBookLoading,
 } from 'redux/books/bookSlice';
 import {
   selectFilteredAuthor,
@@ -23,6 +24,7 @@ export const useBook = () => {
     title: '',
   });
   const books = useAppSelector(selectBooks);
+  const bookLoading = useAppSelector(selectBookLoading);
   const filteredTitle = useAppSelector(selectFilteredTitle);
   const filteredAuthor = useAppSelector(selectFilteredAuthor);
   const showOnlyFavorites = useAppSelector(selectShowOnlyFavorites);
@@ -86,6 +88,7 @@ export const useBook = () => {
   return {
     filteredBooks,
     book,
+    bookLoading,
     addNewBook,
     changeField,
     removeBook,
