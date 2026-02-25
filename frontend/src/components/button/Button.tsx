@@ -12,6 +12,7 @@ type ButtonProps = {
   type?: ButtonType;
   size?: ButtonSize;
   dataTestid?: string;
+  disabled?: boolean;
 };
 
 export const Button = ({
@@ -21,13 +22,15 @@ export const Button = ({
   type = 'button',
   size = 'md',
   dataTestid = 'button',
+  disabled = false,
 }: ButtonProps) => {
   return (
     <button
       data-testid={dataTestid}
       className={`${s.button} ${s[variant]} ${s[size]}`}
       onClick={onClick}
-      type={type}>
+      type={type}
+      disabled={disabled}>
       {btnText}
     </button>
   );
