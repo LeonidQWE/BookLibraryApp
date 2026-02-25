@@ -3,8 +3,14 @@ import { Button, CommonField, Title } from 'components';
 import s from './BookForm.module.css';
 
 export const BookForm = () => {
-  const { book, addNewBook, changeField, addRandomBook, addRandomBookByAPI } =
-    useBook();
+  const {
+    book,
+    bookLoading,
+    addNewBook,
+    changeField,
+    addRandomBook,
+    addRandomBookByAPI,
+  } = useBook();
 
   return (
     <form data-testid="bookForm" className={s.form} onSubmit={addNewBook}>
@@ -26,8 +32,13 @@ export const BookForm = () => {
       <Button btnText="Add new book" type="submit" />
       <Button btnText="Add random book" type="button" onClick={addRandomBook} />
       <Button
-        btnText="Add random book by API"
+        btnText={
+          bookLoading ?
+            <div className={s.loader}></div>
+          : 'Add random book by API'
+        }
         type="button"
+        disabled={bookLoading}
         onClick={addRandomBookByAPI}
       />
     </form>
