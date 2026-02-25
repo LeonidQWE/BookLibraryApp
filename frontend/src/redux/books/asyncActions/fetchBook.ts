@@ -8,7 +8,7 @@ export const fetchBook = createAsyncThunk<BookByAPI>(
   async (_, thunkAPI) => {
     try {
       const res = await axios.get<BookByAPI>(
-        'http://localhost:4000/random-book'
+        'http://localhost:4000/random-book-delayed'
       );
       const bookFromAPI = res.data;
 
