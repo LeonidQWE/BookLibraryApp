@@ -14,6 +14,7 @@ describe('Button', () => {
     expect(buttonElement).toHaveClass('md');
     expect(buttonElement).toHaveTextContent('Click');
     expect(buttonElement).toHaveAttribute('type', 'button');
+    expect(buttonElement).not.toBeDisabled();
   });
 
   it('should render component with text', () => {
@@ -59,7 +60,7 @@ describe('Button', () => {
     { type: 'submit', expected: 'submit' },
     { type: 'reset', expected: 'reset' },
     { type: 'button', expected: 'button' },
-  ])('sould render component with type $type', ({ type, expected }) => {
+  ])('should render component with type $type', ({ type, expected }) => {
     render(<Button type={type} />);
 
     const buttonElement = screen.getByTestId('button');
@@ -68,7 +69,7 @@ describe('Button', () => {
     expect(buttonElement).toHaveAttribute('type', expected);
   });
 
-  it('should render component with hendler', async () => {
+  it('should render component with handler', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
@@ -78,5 +79,21 @@ describe('Button', () => {
     await userEvent.click(buttonElement);
 
     expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render component with disabled attribute', () => {
+    render(<Button disabled={true} />);
+
+    const buttonElement = screen.getByTestId('button');
+
+    expect(buttonElement).toBeDisabled();
+  });
+
+  it('should render component with dataTestid attribute', () => {
+    render(<Button dataTestid="clickBtn" />);
+
+    const buttonElement = screen.getByTestId('clickBtn');
+
+    expect(buttonElement).toBeInTheDocument();
   });
 });
