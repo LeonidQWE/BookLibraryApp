@@ -15,7 +15,7 @@ export const fetchBook = createAsyncThunk<BookByAPI>(
       return bookFromAPI;
     } catch (error) {
       thunkAPI.dispatch(setError(error.message));
-      throw error;
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
