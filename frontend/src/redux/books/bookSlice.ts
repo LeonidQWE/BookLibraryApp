@@ -3,7 +3,7 @@ import { fetchBook } from './asyncActions/fetchBook';
 import { BookType } from 'types';
 import { getNewBook } from 'utils/getNewBook';
 
-type InitialStateType = {
+export type InitialStateType = {
   books: BookType[];
   bookLoading: boolean;
 };
@@ -47,9 +47,10 @@ const bookSlice = createSlice({
         state.bookLoading = true;
       })
       .addCase(fetchBook.fulfilled, (state, action) => {
+        state.bookLoading = false;
+
         if (action.payload?.title && action.payload?.author) {
           state.books.push(getNewBook(action.payload, 'API'));
-          state.bookLoading = false;
         }
       })
       .addCase(fetchBook.rejected, state => {
