@@ -57,10 +57,10 @@ describe('BookFilters', () => {
   });
 
   it('should change field filteredAuthor', async () => {
-    const setFiltereAuthor = jest.fn();
+    const setFilteredAuthor = jest.fn();
 
     (hook.useFilters as jest.Mock).mockReturnValue({
-      setFiltereAuthor,
+      setFilteredAuthor,
     });
 
     render(<BookFilters />);
@@ -70,7 +70,7 @@ describe('BookFilters', () => {
 
     await userEvent.type(filteredAuthorInput, 'Avalon');
 
-    expect(setFiltereAuthor).toHaveBeenCalledTimes(6);
+    expect(setFilteredAuthor).toHaveBeenCalledTimes(6);
   });
 
   it('should click on showOnlyFavorites checkbox', async () => {
