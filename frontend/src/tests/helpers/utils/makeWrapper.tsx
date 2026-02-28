@@ -27,7 +27,9 @@ export const makeWrapper = (preloadedState?: RootState) => {
     },
   });
 
-  return ({ children }: { children: ReactNode }) => (
+  const Wrapper = ({ children }: { children: ReactNode }) => (
     <Provider store={store}>{children}</Provider>
   );
+
+  return { Wrapper, store };
 };
