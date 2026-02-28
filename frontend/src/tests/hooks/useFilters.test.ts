@@ -1,48 +1,53 @@
 import { ReactNode } from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { makeWrapper } from './makeWrapper';
 import { useFilters } from 'hooks/useFilters';
-
-const initial = {
-  books: [],
-  filters: {
-    filteredTitle: 'Halo',
-    filteredAuthor: 'Aloha',
-    showOnlyFavorites: false,
-  },
-};
+import { makePreloadedState, makeWrapper } from 'tests/helpers';
 
 let wrapper: React.FC<{ children: ReactNode }>;
 
 beforeEach(() => {
-  wrapper = makeWrapper(initial);
+  const { Wrapper } = makeWrapper(
+    makePreloadedState({
+      filters: {
+        filteredTitle: 'Halo',
+        filteredAuthor: 'Aloha',
+        showOnlyFavorites: false,
+      },
+    })
+  );
+
+  wrapper = Wrapper;
 });
 
 describe('useFilters', () => {
   it('should return an object with correct property', () => {
+    const { Wrapper } = makeWrapper();
+
     const { result } = renderHook(() => useFilters(), {
-      wrapper: makeWrapper(),
+      wrapper: Wrapper,
     });
 
     expect(result.current).toHaveProperty('filteredTitle');
     expect(result.current).toHaveProperty('filteredAuthor');
     expect(result.current).toHaveProperty('showOnlyFavorites');
     expect(result.current).toHaveProperty('setFilteredTitle');
-    expect(result.current).toHaveProperty('setFiltereAuthor');
+    expect(result.current).toHaveProperty('setFilteredAuthor');
     expect(result.current).toHaveProperty('setShowOnlyFavorites');
     expect(result.current).toHaveProperty('deleteFilters');
   });
 
   it('should return an object with correct type of property', () => {
+    const { Wrapper } = makeWrapper();
+
     const { result } = renderHook(() => useFilters(), {
-      wrapper: makeWrapper(),
+      wrapper: Wrapper,
     });
 
     expect(typeof result.current.filteredTitle).toBe('string');
     expect(typeof result.current.filteredAuthor).toBe('string');
     expect(typeof result.current.showOnlyFavorites).toBe('boolean');
     expect(typeof result.current.setFilteredTitle).toBe('function');
-    expect(typeof result.current.setFiltereAuthor).toBe('function');
+    expect(typeof result.current.setFilteredAuthor).toBe('function');
     expect(typeof result.current.setShowOnlyFavorites).toBe('function');
     expect(typeof result.current.deleteFilters).toBe('function');
   });
@@ -73,7 +78,7 @@ describe('useFilters', () => {
     expect(result.current.filteredAuthor).toBe('Aloha');
 
     act(() => {
-      result.current.setFiltereAuthor('Anar');
+      result.current.setFilteredAuthor('Anar');
     });
 
     expect(result.current.filteredAuthor).toBe('Anar');
