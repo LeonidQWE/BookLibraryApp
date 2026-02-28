@@ -58,7 +58,7 @@ describe('filtersSlice', () => {
     expect(result.showOnlyFavorites).toBe(false);
   });
 
-  it('should change filteredAuthor witn "changeFilterAuthor" action', () => {
+  it('should change filteredAuthor with "changeFilterAuthor" action', () => {
     const action = { type: changeFilterAuthor.type, payload: 'Au' };
 
     const result = filtersReducer(defaultState, action);
@@ -68,7 +68,7 @@ describe('filtersSlice', () => {
     expect(result.showOnlyFavorites).toBe(false);
   });
 
-  it('should change showOnlyFavorites witn "toggleShowOnlyFavorites" action', () => {
+  it('should change showOnlyFavorites with "toggleShowOnlyFavorites" action', () => {
     const action = { type: toggleShowOnlyFavorites.type, payload: true };
 
     const result = filtersReducer(defaultState, action);

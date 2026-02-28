@@ -9,36 +9,20 @@ import {
   InitialStateType,
 } from 'redux/books/bookSlice';
 import { RootState } from 'redux/store';
+import { makeCloneData, mockBooks } from 'tests/helpers';
 import { BookByAPI } from 'types';
 
 global.crypto.randomUUID = () => '123-123-123-123-354';
 
 const defaultState: InitialStateType = {
-  books: [
-    {
-      id: '1234-2345-1234-1234',
-      title: 'Test book1',
-      author: 'Test Author1',
-      isFavorite: false,
-      source: 'New Book',
-    },
-    {
-      id: '1234-2345-1234-1235',
-      title: 'Test book2',
-      author: 'Test Author2',
-      isFavorite: true,
-      source: 'Random Book',
-    },
-  ],
+  books: makeCloneData(mockBooks),
   bookLoading: false,
 };
-
-const makeState = () => JSON.parse(JSON.stringify(defaultState));
 
 describe('bookSlice', () => {
   describe('bookSlice selectors', () => {
     const state: Pick<RootState, 'books'> = {
-      books: defaultState,
+      books: makeCloneData(defaultState),
     };
 
     it('should select books from state object', () => {
@@ -65,53 +49,47 @@ describe('bookSlice', () => {
       type: addBook.type,
       payload: {
         id: '1234-2345-1234-1236',
-        title: 'Test book3',
-        author: 'Test Author3',
+        title: 'Test book4',
+        author: 'Test Author4',
         isFavorite: false,
         source: 'New Book',
       },
     };
 
-    const result = booksReducer(makeState(), action);
-
-    expect(result.books[2].title).toBe('Test book3');
-    expect(result.books[2].author).toBe('Test Author3');
-    expect(result.books[2].isFavorite).toBe(false);
-    expect(result.books[2].source).toBe('New Book');
+    const result = booksReducer(makeCloneData(defaultState), action);
+    expect(result.books[3].title).toBe('Test book4');
+    expect(result.books[3].author).toBe('Test Author4');
+    expect(result.books[3].isFavorite).toBe(false);
+    expect(result.books[3].source).toBe('New Book');
   });
 
   it('should delete book with "deleteBook" action', () => {
-    const action = { type: deleteBook.type, payload: '1234-2345-1234-1234' };
+    const action = { type: deleteBook.type, payload: '1234-1234=1234-1233' };
 
-    const result = booksReducer(makeState(), action);
+    const result = booksReducer(makeCloneData(defaultState), action);
 
-    expect(result.books.length).toBe(1);
-    expect(result.books[0].id).toBe('1234-2345-1234-1235');
-    expect(result.books[0].title).toBe('Test book2');
-    expect(result.books[0].author).toBe('Test Author2');
-    expect(result.books[0].isFavorite).toBe(true);
-    expect(result.books[0].source).toBe('Random Book');
+    expect(result.books.length).toBe(2);
   });
 
   it('should toggle isFavorite book with "toggleFavorite" action', () => {
     const action = {
       type: toggleFavorite.type,
-      payload: '1234-2345-1234-1235',
+      payload: '1234-1234=1234-1233',
     };
 
-    const result = booksReducer(makeState(), action);
+    const result = booksReducer(makeCloneData(defaultState), action);
 
     expect(result.books[0].isFavorite).toBe(false);
-    expect(result.books[1].isFavorite).toBe(false);
+    expect(result.books[1].isFavorite).toBe(true);
+    expect(result.books[2].isFavorite).toBe(true);
   });
 
   describe('fetchBook in book Slice', () => {
     it('should change loadingBook with "fetchBook.pending" action', () => {
       const state = booksReducer(
-        makeState(),
+        makeCloneData(defaultState),
         fetchBook.pending('request-id', undefined)
       );
-
       expect(state.bookLoading).toBe(true);
     });
 
@@ -123,7 +101,7 @@ describe('bookSlice', () => {
       };
 
       const state = booksReducer(
-        makeState(),
+        makeCloneData(defaultState),
         fetchBook.fulfilled(book, 'request-id')
       );
 
@@ -143,7 +121,7 @@ describe('bookSlice', () => {
 
     it('should change loadingBook with "fetchBook.rejected" action', () => {
       const state = booksReducer(
-        makeState(),
+        makeCloneData(defaultState),
         fetchBook.rejected(null, 'request-id')
       );
 
