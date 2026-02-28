@@ -1,37 +1,27 @@
 import { renderHook, act } from '@testing-library/react';
-import { makeWrapper } from './makeWrapper';
+import axios from 'axios';
 import { useBook } from 'hooks/useBook';
-import { BookType } from 'types';
-
-const baseBooks: BookType[] = [
-  {
-    id: '1234-1234=1234-1231',
-    title: 'Title1',
-    author: 'Author1',
-    isFavorite: false,
-  },
-  {
-    id: '1234-1234=1234-1232',
-    title: 'Kinder t',
-    author: 'Surft',
-    isFavorite: true,
-  },
-  {
-    id: '1234-1234=1234-1233',
-    title: 'Aloha',
-    author: 'Harry',
-    isFavorite: false,
-  },
-];
+import { makeWrapper, makePreloadedState } from 'tests/helpers';
 
 global.crypto.randomUUID = () => '123-123-123-123-354';
+
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+beforeAll(() => {
+  Object.defineProperty(globalThis, 'crypto', {
+    value: { randomUUID: () => '123-123-123-123-354' },
+    writable: true,
+  });
+});
+
 const mockMathRandom = (v: number) =>
   jest.spyOn(Math, 'random').mockReturnValue(v);
 
 const inputEvent = (id: string, value: string) =>
   ({ target: { id, value } }) as React.ChangeEvent<HTMLInputElement>;
 
-const subminEvent = () =>
+const submitEvent = () =>
   ({
     preventDefault: jest.fn(),
   }) as unknown as React.FormEvent<HTMLFormElement>;
@@ -39,101 +29,89 @@ const subminEvent = () =>
 describe('useBook', () => {
   describe('correct object from hook', () => {
     it('should return an object with correct property', () => {
+      const { Wrapper } = makeWrapper();
+
       const { result } = renderHook(() => useBook(), {
-        wrapper: makeWrapper(),
+        wrapper: Wrapper,
       });
 
       expect(result.current).toHaveProperty('filteredBooks');
       expect(result.current).toHaveProperty('book');
+      expect(result.current).toHaveProperty('bookLoading');
       expect(result.current).toHaveProperty('addNewBook');
       expect(result.current).toHaveProperty('changeField');
       expect(result.current).toHaveProperty('removeBook');
       expect(result.current).toHaveProperty('addRandomBook');
       expect(result.current).toHaveProperty('handleToggleFavorite');
+      expect(result.current).toHaveProperty('addRandomBookByAPI');
     });
 
     it('should return an object with correct type property', () => {
+      const { Wrapper } = makeWrapper();
+
       const { result } = renderHook(() => useBook(), {
-        wrapper: makeWrapper(),
+        wrapper: Wrapper,
       });
 
       expect(Array.isArray(result.current.filteredBooks)).toBe(true);
       expect(result.current.book).toEqual({
-        id: '',
         author: '',
         title: '',
-        isFavorite: false,
       });
+      expect(typeof result.current.bookLoading).toBe('boolean');
       expect(typeof result.current.addNewBook).toBe('function');
       expect(typeof result.current.changeField).toBe('function');
       expect(typeof result.current.removeBook).toBe('function');
       expect(typeof result.current.addRandomBook).toBe('function');
       expect(typeof result.current.handleToggleFavorite).toBe('function');
+      expect(typeof result.current.addRandomBookByAPI).toBe('function');
     });
   });
 
   describe('filteredBooks', () => {
     it('should return filteredBooks without filters', () => {
-      const wrapper = makeWrapper({
-        books: baseBooks,
-        filters: {
-          filteredTitle: '',
-          filteredAuthor: '',
-          showOnlyFavorites: false,
-        },
-      });
+      const { Wrapper } = makeWrapper(makePreloadedState());
 
-      const { result } = renderHook(() => useBook(), { wrapper });
+      const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
       expect(result.current.filteredBooks.length).toBe(3);
     });
 
     it('should return filteredBooks with showOnlyFavorites', () => {
-      const wrapper = makeWrapper({
-        books: baseBooks,
-        filters: {
-          filteredTitle: '',
-          filteredAuthor: '',
-          showOnlyFavorites: true,
-        },
-      });
+      const { Wrapper } = makeWrapper(
+        makePreloadedState({
+          filters: { ...makePreloadedState().filters, showOnlyFavorites: true },
+        })
+      );
 
-      const { result } = renderHook(() => useBook(), { wrapper });
+      const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
       expect(result.current.filteredBooks).toHaveLength(1);
       expect(result.current.filteredBooks[0].title).toBe('Kinder t');
-      expect(result.current.filteredBooks[0].author).toBe('Surft');
+      expect(result.current.filteredBooks[0].author).toBe('Surf');
     });
 
-    it('shoulr return filteredBooks with title filter', () => {
-      const wrapper = makeWrapper({
-        books: baseBooks,
-        filters: {
-          filteredTitle: 'T',
-          filteredAuthor: '',
-          showOnlyFavorites: false,
-        },
-      });
+    it('should return filteredBooks with title filter', () => {
+      const { Wrapper } = makeWrapper(
+        makePreloadedState({
+          filters: { ...makePreloadedState().filters, filteredTitle: 'T' },
+        })
+      );
 
-      const { result } = renderHook(() => useBook(), { wrapper });
-
+      const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
       expect(result.current.filteredBooks).toHaveLength(2);
       expect(result.current.filteredBooks[0].title).toBe('Title1');
       expect(result.current.filteredBooks[1].title).toBe('Kinder t');
     });
 
     it('should return filteredBooks with author filter', () => {
-      const wrapper = makeWrapper({
-        books: baseBooks,
-        filters: {
-          filteredTitle: '',
-          filteredAuthor: 'harry',
-          showOnlyFavorites: false,
-        },
-      });
+      const { Wrapper } = makeWrapper(
+        makePreloadedState({
+          filters: { ...makePreloadedState().filters, filteredAuthor: 'harry' },
+        })
+      );
 
-      const { result } = renderHook(() => useBook(), { wrapper });
-
+      const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
       expect(result.current.filteredBooks).toHaveLength(1);
       expect(result.current.filteredBooks[0].author).toBe('Harry');
       expect(result.current.filteredBooks[0].title).toBe('Aloha');
@@ -141,50 +119,54 @@ describe('useBook', () => {
   });
 
   it('should add new book with value', () => {
-    const wrapper = makeWrapper({
-      books: baseBooks,
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
-    });
+    const { Wrapper } = makeWrapper(makePreloadedState());
 
-    const { result } = renderHook(() => useBook(), { wrapper });
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
     expect(result.current.filteredBooks).toHaveLength(3);
 
     act(() => {
       result.current.changeField(inputEvent('title', 'Clean code'));
-      result.current.changeField(inputEvent('author', 'Rebeka'));
+      result.current.changeField(inputEvent('author', 'Hones'));
     });
 
     act(() => {
-      result.current.addNewBook(subminEvent());
+      result.current.addNewBook(submitEvent());
     });
 
     expect(result.current.filteredBooks).toHaveLength(4);
     expect(result.current.filteredBooks[3].title).toBe('Clean code');
-    expect(result.current.filteredBooks[3].author).toBe('Rebeka');
+    expect(result.current.filteredBooks[3].author).toBe('Hones');
     expect(result.current.book).toEqual({
-      id: '',
       title: '',
       author: '',
-      isFavorite: false,
     });
   });
 
-  it('should add new book without value', () => {
-    const wrapper = makeWrapper({
-      books: baseBooks,
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
+  it('should add new book with empty title value', () => {
+    const { Wrapper, store } = makeWrapper(makePreloadedState());
+
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
+
+    expect(result.current.filteredBooks).toHaveLength(3);
+
+    act(() => {
+      result.current.changeField(inputEvent('title', ''));
+      result.current.changeField(inputEvent('author', 'Anno'));
     });
 
-    const { result } = renderHook(() => useBook(), { wrapper });
+    act(() => {
+      result.current.addNewBook(submitEvent());
+    });
+
+    expect(store.getState().books.books).toHaveLength(3);
+    expect(store.getState().error).toBe('Title field is empty');
+  });
+
+  it('should add new book with empty author value', () => {
+    const { Wrapper, store } = makeWrapper(makePreloadedState());
+
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
     expect(result.current.filteredBooks).toHaveLength(3);
 
@@ -194,23 +176,17 @@ describe('useBook', () => {
     });
 
     act(() => {
-      result.current.addNewBook(subminEvent());
+      result.current.addNewBook(submitEvent());
     });
 
-    expect(result.current.filteredBooks).toHaveLength(3);
+    expect(store.getState().books.books).toHaveLength(3);
+    expect(store.getState().error).toBe('Author field is empty');
   });
 
   it('should add random new book', () => {
-    const wrapper = makeWrapper({
-      books: baseBooks,
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
-    });
+    const { Wrapper } = makeWrapper(makePreloadedState());
 
-    const { result } = renderHook(() => useBook(), { wrapper });
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
     expect(result.current.filteredBooks).toHaveLength(3);
 
@@ -228,16 +204,9 @@ describe('useBook', () => {
   });
 
   it('should remove book', () => {
-    const wrapper = makeWrapper({
-      books: baseBooks,
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
-    });
+    const { Wrapper } = makeWrapper(makePreloadedState());
 
-    const { result } = renderHook(() => useBook(), { wrapper });
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
     expect(result.current.filteredBooks).toHaveLength(3);
 
@@ -251,16 +220,9 @@ describe('useBook', () => {
   });
 
   it('should toggle favorite', () => {
-    const wrapper = makeWrapper({
-      books: baseBooks,
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
-    });
+    const { Wrapper } = makeWrapper(makePreloadedState());
 
-    const { result } = renderHook(() => useBook(), { wrapper });
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
 
     expect(result.current.filteredBooks[2].isFavorite).toBe(false);
 
@@ -269,5 +231,23 @@ describe('useBook', () => {
     });
 
     expect(result.current.filteredBooks[2].isFavorite).toBe(true);
+  });
+
+  it('should add random book by API', async () => {
+    mockedAxios.get.mockResolvedValueOnce({
+      data: { title: 'API title', author: 'API author', year: 2020 },
+    });
+
+    const { Wrapper, store } = makeWrapper(makePreloadedState());
+
+    const { result } = renderHook(() => useBook(), { wrapper: Wrapper });
+
+    expect(store.getState().books.books).toHaveLength(3);
+
+    await act(async () => {
+      await result.current.addRandomBookByAPI();
+    });
+
+    expect(store.getState().books.books).toHaveLength(4);
   });
 });
