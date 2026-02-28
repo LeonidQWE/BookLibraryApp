@@ -19,7 +19,7 @@ export const useFilters = () => {
   const setFilteredTitle = (value: string) =>
     dispatch(changeFilterTitle(value));
 
-  const setFiltereAuthor = (value: string) =>
+  const setFilteredAuthor = (value: string) =>
     dispatch(changeFilterAuthor(value));
 
   const setShowOnlyFavorites = (value: boolean) =>
@@ -34,7 +34,7 @@ export const useFilters = () => {
     filteredAuthor,
     showOnlyFavorites,
     setFilteredTitle,
-    setFiltereAuthor,
+    setFilteredAuthor,
     setShowOnlyFavorites,
     deleteFilters,
   };

@@ -8,7 +8,7 @@ export const BookFilters = () => {
     filteredAuthor,
     showOnlyFavorites,
     setFilteredTitle,
-    setFiltereAuthor,
+    setFilteredAuthor,
     setShowOnlyFavorites,
     deleteFilters,
   } = useFilters();
@@ -26,7 +26,7 @@ export const BookFilters = () => {
         placeholder="Enter author name"
         type="text"
         value={filteredAuthor}
-        setValue={e => setFiltereAuthor(e.target.value)}
+        setValue={e => setFilteredAuthor(e.target.value)}
       />
 
       <div className={s.controls} data-testid="controls">
