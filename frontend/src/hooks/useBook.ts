@@ -82,7 +82,7 @@ export const useBook = () => {
   };
 
   const addRandomBookByAPI = async () => {
-    dispatch(fetchBook());
+    await dispatch(fetchBook());
   };
 
   return {
