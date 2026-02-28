@@ -1,19 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import { makeWrapper } from 'tests/hooks/makeWrapper';
+import { makePreloadedState, makeWrapper } from 'tests/helpers';
 import { BookList } from './BookList';
 
 describe('BookList', () => {
   it('should render component with empty books', () => {
-    const wrapper = makeWrapper({
-      books: [],
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
-    });
+    const { Wrapper } = makeWrapper(
+      makePreloadedState({
+        books: { ...makePreloadedState().books, books: [] },
+      })
+    );
 
-    render(<BookList />, { wrapper });
+    render(<BookList />, { wrapper: Wrapper });
 
     const listElement = screen.getByTestId('list');
     const listTitleElement = screen.getByTestId('listTitle');
@@ -27,32 +24,12 @@ describe('BookList', () => {
   });
 
   it('should render component with books', () => {
-    const wrapper = makeWrapper({
-      books: [
-        {
-          id: '1234-1234-1234-1234',
-          title: 'Book One',
-          author: 'Author One',
-          isFavorite: false,
-        },
-        {
-          id: '1234-1234-1234-1235',
-          title: 'Book Two',
-          author: 'Author Two',
-          isFavorite: true,
-        },
-      ],
-      filters: {
-        filteredTitle: '',
-        filteredAuthor: '',
-        showOnlyFavorites: false,
-      },
-    });
+    const { Wrapper } = makeWrapper(makePreloadedState());
 
-    const { container } = render(<BookList />, { wrapper });
+    const { container } = render(<BookList />, { wrapper: Wrapper });
 
     const books = container.querySelectorAll('.book');
 
-    expect(books.length).toBe(2);
+    expect(books.length).toBe(3);
   });
 });
