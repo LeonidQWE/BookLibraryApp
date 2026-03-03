@@ -1,15 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BookType } from 'types';
 import { Book } from './Book';
+import { makeCloneData, mockBook } from 'tests/helpers';
 
 describe('Book', () => {
   it('should render Book component with props (isFavorite: false)', () => {
-    const testBook: BookType = {
-      id: '1234-1234-1344-1234',
-      title: 'Test book Title',
-      author: 'Avrin Konor',
-      isFavorite: false,
-    };
+    const testBook: BookType = makeCloneData(mockBook);
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 
@@ -25,16 +21,17 @@ describe('Book', () => {
     );
 
     const contentElement = container.querySelector('.content');
-    const controlsElemet = container.querySelector('.controls');
+    const controlsElement = container.querySelector('.controls');
     const numberElement = screen.getByText('1.');
     const titleElement = screen.getByText('Test book Title');
     const authorElement = screen.getByText('Avrin Konor');
     const toggleFavoriteBtnElement = screen.getByTestId('toggleFavoriteBtn');
     const deleteBtnElement = screen.getByTestId('deleteBookBtn');
     const iconOfToggleBtn = toggleFavoriteBtnElement.querySelector('svg');
+    const bookSourceElement = screen.getByTestId('bookSource');
 
     expect(contentElement).toBeInTheDocument();
-    expect(controlsElemet).toBeInTheDocument();
+    expect(controlsElement).toBeInTheDocument();
     expect(numberElement).toBeInTheDocument();
     expect(titleElement).toBeInTheDocument();
     expect(authorElement).toBeInTheDocument();
@@ -42,15 +39,11 @@ describe('Book', () => {
     expect(deleteBtnElement).toBeInTheDocument();
     expect(iconOfToggleBtn).toBeInTheDocument();
     expect(iconOfToggleBtn).toHaveStyle({ color: 'rgb(255, 255, 255)' });
+    expect(bookSourceElement).toBeInTheDocument();
   });
 
   it('should render Book component with props (isFavorite: true)', () => {
-    const testBook: BookType = {
-      id: '1234-1234-1344-1234',
-      title: 'Test book Title',
-      author: 'Avrin Konor',
-      isFavorite: true,
-    };
+    const testBook: BookType = makeCloneData({ ...mockBook, isFavorite: true });
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 
@@ -66,7 +59,7 @@ describe('Book', () => {
     );
 
     const contentElement = container.querySelector('.content');
-    const controlsElemet = container.querySelector('.controls');
+    const controlsElement = container.querySelector('.controls');
     const numberElement = screen.getByText('1.');
     const titleElement = screen.getByText('Test book Title');
     const authorElement = screen.getByText('Avrin Konor');
@@ -75,7 +68,7 @@ describe('Book', () => {
     const iconOfToggleBtn = toggleFavoriteBtnElement.querySelector('svg');
 
     expect(contentElement).toBeInTheDocument();
-    expect(controlsElemet).toBeInTheDocument();
+    expect(controlsElement).toBeInTheDocument();
     expect(numberElement).toBeInTheDocument();
     expect(titleElement).toBeInTheDocument();
     expect(authorElement).toBeInTheDocument();
@@ -86,12 +79,12 @@ describe('Book', () => {
   });
 
   it('should render component with filteredTitle prop', () => {
-    const testBook: BookType = {
-      id: '1234-1234-1344-1234',
+    const testBook: BookType = makeCloneData({
+      ...mockBook,
       title: 'Test book tetle',
-      author: 'Avrin Konor',
       isFavorite: true,
-    };
+    });
+
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 
@@ -124,12 +117,11 @@ describe('Book', () => {
   });
 
   it('should render component with filteredAuthor prop', () => {
-    const testBook: BookType = {
-      id: '1234-1234-1344-1234',
+    const testBook: BookType = makeCloneData({
+      ...mockBook,
       title: 'Test book tetle',
-      author: 'Avrin Konor',
       isFavorite: true,
-    };
+    });
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 
@@ -161,12 +153,12 @@ describe('Book', () => {
   });
 
   it('should render component with filteredTitle and filteredAuthor props', () => {
-    const testBook = {
-      id: '1234-1234-1344-1234',
+    const testBook: BookType = makeCloneData({
+      ...mockBook,
       title: 'Test book title',
       author: 'Avrin Rinat',
       isFavorite: true,
-    };
+    });
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 
@@ -181,8 +173,8 @@ describe('Book', () => {
       />
     );
 
-    const titleElemet = screen.getByTestId('bookTitle');
-    const tittleMatches = titleElemet.querySelectorAll('span');
+    const titleElement = screen.getByTestId('bookTitle');
+    const tittleMatches = titleElement.querySelectorAll('span');
     const authorElement = screen.getByTestId('bookAuthor');
     const authorMatches = authorElement.querySelectorAll('span');
 
@@ -194,12 +186,7 @@ describe('Book', () => {
   });
 
   it('should click remove book button', async () => {
-    const testBook = {
-      id: '1234-1234-1344-1234',
-      title: 'Test book title',
-      author: 'Avrin Rinat',
-      isFavorite: true,
-    };
+    const testBook: BookType = makeCloneData({ ...mockBook, isFavorite: true });
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 
@@ -223,12 +210,7 @@ describe('Book', () => {
   });
 
   it('should click toggle favorite button', async () => {
-    const testBook = {
-      id: '1234-1234-1344-1234',
-      title: 'Test book title',
-      author: 'Avrin Rinat',
-      isFavorite: true,
-    };
+    const testBook: BookType = makeCloneData({ ...mockBook, isFavorite: true });
     const deleteBook = jest.fn();
     const toggleFavorite = jest.fn();
 

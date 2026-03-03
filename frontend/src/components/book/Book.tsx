@@ -32,7 +32,7 @@ export const Book = ({
         <strong data-testid="bookAuthor">
           {highlightMatch(book.author, filteredAuthor)}
         </strong>
-        <p>({book.source})</p>
+        <p data-testid="bookSource">({book.source})</p>
       </div>
 
       <div className={s.controls}>
