@@ -1,5 +1,6 @@
 // Mock data
 export { mockBooks } from './data/mockBooks';
+export { mockBook } from './data/mockBook';
 
 // helper functions
 export { makeCloneData } from './utils/makeCloneData';
