@@ -34,12 +34,13 @@ export const BookForm = () => {
       <Button
         btnText={
           bookLoading ?
-            <div className={s.loader}></div>
+            <div className={s.loader} data-testid="loader"></div>
           : 'Add random book by API'
         }
         type="button"
         disabled={bookLoading}
         onClick={addRandomBookByAPI}
+        dataTestid="addBookByAPI"
       />
     </form>
   );
