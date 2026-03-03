@@ -15,7 +15,7 @@ describe('BookFilters', () => {
 
     render(<BookFilters />);
 
-    const filtersContsinerElement = screen.getByTestId('filters');
+    const filtersContainerElement = screen.getByTestId('filters');
     const filteredTitleInput = screen.getByPlaceholderText('Enter book title');
     const filteredAuthorInput =
       screen.getByPlaceholderText('Enter author name');
@@ -24,8 +24,8 @@ describe('BookFilters', () => {
     const checkboxInputElement = checkboxElement.querySelector('input');
     const resetFiltersBtn = screen.getByTestId('resetFilters');
 
-    expect(filtersContsinerElement).toBeInTheDocument();
-    expect(filtersContsinerElement).toHaveClass('container');
+    expect(filtersContainerElement).toBeInTheDocument();
+    expect(filtersContainerElement).toHaveClass('container');
     expect(filteredTitleInput).toBeInTheDocument();
     expect(filteredTitleInput).toHaveAttribute('type', 'text');
     expect(filteredTitleInput).toHaveValue('Aha');
